@@ -1,1 +1,3 @@
 sysbuild/
+*.xcworkspace
+xcuserdata/

@@ -33,12 +33,12 @@ function setup_buildtools_modulepath()
 	local pwd = exec("pwd")
 	local root = arg[0]
 	print(pwd)
-	if(root and stripfilename(root)) then 
-		root = stripfilename(root) .. "/" 
-	else 
-		root = "" 
+	if(root and stripfilename(root)) then
+		root = stripfilename(root) .. "/"
+	else
+		root = ""
 	end
-	
+
 	local path = string.format("%s/%s%s", pwd, root, "modules")
 	--print("module path", path)
 	addmodulepath(path)
@@ -61,7 +61,7 @@ function svnroot()
 	else
 		error("repo root folder path is invalid, must be either a relative or absolute path")
 	end
-	
+
 	-- remove trailing '/'
 	if(repopath:sub(repopath:len()) == "/") then
 		repopath = repopath:sub(1, repopath:len()-1)
@@ -104,17 +104,17 @@ local settings = {
 for k, v in pairs(settings) do
 	settings[#settings+1] = k
 end
-table.sort(settings, function(v1, v2) 
+table.sort(settings, function(v1, v2)
 	return v1 < v2
 end)
 
 local err_str = table.concat(settings, "\n")
 if(not arg[1]) then
 	print("-------------------------------")
-	print("Invalid Arguments:")	
+	print("Invalid Arguments:")
 	print("arguments are: 'repo root' followed by any of the following arguments:\n"
 		.. err_str)
-	print("-------------------------------")	
+	print("-------------------------------")
 	os.exit()
 end
 
@@ -192,9 +192,9 @@ local build = "base"
 echo = true
 src_extensions = {"c", "cpp"}
 OS = _OSNAME
-modulesfolder = assert(findfileinpath(reporoot, "modules", false), 
+modulesfolder = assert(findfileinpath(reporoot, "modules", false),
 									"Unable to find 'modules' folder")
-										
+
 
 ---------------------------------------------------------------
 
@@ -204,7 +204,7 @@ function loadproject(name)
 	--[[
 	local path = makepath(reporoot, "buildtool/projects")
 	local file = findfileinpath(path, name .. ".lua", true)
-	
+
 	local t = loadinenv(_G, file)
 	return t.project
 	--]]
@@ -217,11 +217,11 @@ local projects = {
 	"font",
 	"image",
 	"opencl",
-	"opencv",
+	-- "opencv",
 	"opengl",
 	"socket",
-	"space",
-	"video",
+	-- "space",
+	-- "video",
 	--"clang",
 	"LuaAV",
 
@@ -239,7 +239,7 @@ local projects = {
 	space = { target = "space" },
 	video = { target = "video" },
 	--clang = { target = "clang" },
-	
+
 	-- LuaAV
 	LuaAV = { target = "LuaAV" },
 }
@@ -261,15 +261,15 @@ function build_projects(project_sets)
 				break
 			end
 		end
-		
+
 		print("building", name, filename)
-		
+
 		local path = stripfilename(filename)
 		local fname = strippath(filename)
-		
+
 		local origpath = lfs.currentdir()
 		lfs.chdir(path)
-		local cmd = format("xcodebuild -project %s -target %s -configuration %s %s", 
+		local cmd = format("xcodebuild -project %s -target %s -configuration %s %s",
 								fname, p.target, config, action)
 		--buildutils.exec(cmd)
 		print("")

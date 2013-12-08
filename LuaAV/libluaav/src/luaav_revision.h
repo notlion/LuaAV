@@ -1,1 +1,1 @@
-#define LuaAVRevisionNumber "exported"
+#define LuaAVRevisionNumber "Unversioned directory"
